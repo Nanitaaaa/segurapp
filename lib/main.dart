@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
-void main() {
+//Importaciones para Firebase
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async{
+  
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MaterialApp(
     home: FormularioPrincipal(),
   ));
@@ -59,7 +68,8 @@ class _FormularioPrincipalState extends State<FormularioPrincipal> {
 class PantallaSaludo extends StatelessWidget {
   final String nombre;
 
-  const PantallaSaludo(this.nombre);
+  const PantallaSaludo(this.nombre, {super.key});
+  
 
   @override
   Widget build(BuildContext context) {

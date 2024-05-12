@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "680783185386",
+    "project_id": "prueba-flutter-cc06e",
+    "storage_bucket": "prueba-flutter-cc06e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:680783185386:android:a507cd5f6d80149ac49e93",
+        "android_client_info": {
+          "package_name": "com.example.segurapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTnM6ElvWSNR2hFe-l3zuFKgZ3MVVhqLU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
