@@ -11,11 +11,31 @@ Future<List> getIncidents() async {
   //Generar la query para leer todos los datos
   QuerySnapshot queryIncidents = await collectionReferenceIncidents.get();
 
-  for (var document in queryIncidents.docs) { 
-    incidents.add(document.data());
+  for (var doc in queryIncidents.docs) { 
+    final Map<String, dynamic> docData = doc.data() as Map<String, dynamic>;
+    final incidencia = {
+      'cliente': docData['cliente'],
+      'fecha': docData['fecha'],
+      'id': doc.id,
+    };
+    incidents.add(incidencia);
   }
 
-  await Future.delayed( const Duration(milliseconds: 500 ));
-
   return incidents;
+}
+
+//CRUD CREATE
+Future<void> createIncident(String cliente, String fecha) async {
+  await db.collection('incidencia').add({
+    'cliente': cliente,
+    'fecha': fecha,
+  });
+}
+
+//CRUD UPDATE
+Future<void> updateIncident(String id ,String cliente, String fecha) async {
+  await db.collection('incidencia').doc('id').set({
+    'cliente': cliente,
+    'fecha': fecha,
+  });
 }

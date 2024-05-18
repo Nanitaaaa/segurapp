@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 //Importaciones para Firebase
 import 'package:firebase_core/firebase_core.dart';
-import 'package:segurapp/services/firebase.dart';
+import 'package:segurapp/pages/home_page.dart';
+import 'package:segurapp/pages/update_page.dart';
+
+//Paginas de la aplicación
 import 'firebase_options.dart';
+import 'pages/create_page.dart';
 
 void main() async{
   
@@ -22,43 +26,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Home(),
+        '/create': (context) => const CreatePage(),
+        '/update': (context) => const UpdatePage(),
+      },
     );
   }
 }
-
-class Home extends StatefulWidget {
-  const Home({
-    super.key,
-  });
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: getIncidents(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-            itemCount: snapshot.data?.length ?? 0,
-            itemBuilder: (context, index) {
-              return Center
-              (child:Text(snapshot.data?[index]['cliente'] ?? ''));
-            }
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        })
-      );
-    }
-  }
