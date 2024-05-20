@@ -17,6 +17,7 @@ Future<List> getIncidents() async {
       'cliente': docData['cliente'],
       'fecha': docData['fecha'],
       'id': doc.id,
+      'tipo': docData['tipo'],
     };
     incidents.add(incidencia);
   }
@@ -25,10 +26,11 @@ Future<List> getIncidents() async {
 }
 
 //CRUD CREATE
-Future<void> createIncident(String cliente, String fecha) async {
+Future<void> createIncident(String cliente, String fecha, String tipo) async {
   await db.collection('incidencia').add({
     'cliente': cliente,
     'fecha': fecha,
+    'tipo': tipo,
   });
 }
 

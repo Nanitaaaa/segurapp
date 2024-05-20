@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
                   child: ListTile(
                     shape: RoundedRectangleBorder (
                       borderRadius: BorderRadius.circular(10),
-                      side: const BorderSide(color: Colors.black)
+                      side: const BorderSide(color: Colors.black),
                     ),
                     title: Text(snapshot.data?[index]['cliente']),
                     subtitle: Text(snapshot.data?[index]['fecha']??''),
@@ -80,7 +80,8 @@ class _HomeState extends State<Home> {
                       await Navigator.pushNamed(context, '/update', arguments:{
                       snapshot.data?[index]['cliente']??'',
                       snapshot.data?[index]['fecha']??'',
-                      snapshot.data?[index]['id']
+                      snapshot.data?[index]['id'],
+                      snapshot.data?[index]['tipo'],
                       });
                       //Actualizar la lista de incidencias
                       setState(() {});

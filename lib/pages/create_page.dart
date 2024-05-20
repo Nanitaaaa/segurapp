@@ -13,6 +13,7 @@ class _CreatePageState extends State<CreatePage> {
 
   TextEditingController clientController = TextEditingController(text: '' );
   TextEditingController fechaController = TextEditingController(text: '' );
+  String tipo = 'robo';
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +38,34 @@ class _CreatePageState extends State<CreatePage> {
                 labelText: 'Ingrese la fecha de la incidencia',
               ),
             ),
-        
+
+            const Text('Seleccione el tipo de incidencia'),
+            DropdownButton<String>(
+              value: tipo,
+              items: const [
+                DropdownMenuItem(
+                value: 'robo',
+                child: Text('Robo'),
+                ),
+                DropdownMenuItem(
+                  value: 'accidente',
+                  child: Text('Accidente'),
+                ),
+                DropdownMenuItem(
+                  value: 'disturbio',
+                  child: Text('Disturbio'),
+                ),
+              ],
+              onChanged: (String? newValue) {
+                setState(() {
+                  tipo = newValue!;
+                });
+              },
+            ),
+
             ElevatedButton(
               onPressed: () {
-                createIncident(clientController.text, fechaController.text).then((_) => {
+                createIncident(clientController.text, fechaController.text, tipo).then((_) => {
                   Navigator.pop(context),
                 });
               },
