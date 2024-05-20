@@ -28,13 +28,36 @@ class _UpdatePageState extends State<UpdatePage> {
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.redAccent,
         onPressed: () async {
-          //Actualizar la incidencia en la base de datos
-          await deleteIncident(argumentsList[2]).then((value) => 
-            Navigator.pop(context)
+          final confirmed = await showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Confirmar'),
+                content: const Text('¿Está seguro que desea eliminar esta incidencia?'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, false),
+                    child: const Text('No'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, true),
+                    child: const Text('Sí, eliminar'),
+                  ),
+                ],
+              );
+            },
           );
+
+          if (confirmed ?? false) {
+            // Si confimamos la eliminación, llamamos a la función deleteIncident
+            await deleteIncident(argumentsList[2]);
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context); // Volvemos al menú principal
+          }
         },
-        child: const Icon(Icons.delete),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
       appBar: AppBar(
         title: const Text('Modificar Incidencia'),
