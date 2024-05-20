@@ -27,6 +27,15 @@ class _UpdatePageState extends State<UpdatePage> {
     fechaController.text = fechaData;
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          //Actualizar la incidencia en la base de datos
+          await deleteIncident(argumentsList[2]).then((value) => 
+            Navigator.pop(context)
+          );
+        },
+        child: const Icon(Icons.delete),
+      ),
       appBar: AppBar(
         title: const Text('Modificar Incidencia'),
       ),
@@ -50,12 +59,10 @@ class _UpdatePageState extends State<UpdatePage> {
         
             ElevatedButton(
               onPressed: () async{
-                //NO FUNCIONA LA FUNCION UPDATE ME ESTOY VOLVIENDO LOCOOOOOOOOOOOOOOOOOOOOOOO
+                //Actualizar la incidencia en la base de datos
                 await updateIncident(argumentsList[2] ,clientController.text, fechaController.text).then((value) => 
                   Navigator.pop(context)
                 );
-                //Actualizar la lista de incidencias
-                setState(() {});
               },
               child: const Text('Actualizar'),
             ),

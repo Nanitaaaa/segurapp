@@ -34,8 +34,13 @@ Future<void> createIncident(String cliente, String fecha) async {
 
 //CRUD UPDATE
 Future<void> updateIncident(String id ,String cliente, String fecha) async {
-  await db.collection('incidencia').doc('id').set({
+  await db.collection('incidencia').doc(id).update({
     'cliente': cliente,
     'fecha': fecha,
   });
+}
+
+//CRUD DELETE
+Future<void> deleteIncident(String id) async {
+  await db.collection('incidencia').doc(id).delete();
 }
