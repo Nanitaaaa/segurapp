@@ -13,7 +13,7 @@ class _UpdatePageState extends State<UpdatePage> {
 
   TextEditingController clientController = TextEditingController(text: '' );
   TextEditingController fechaController = TextEditingController(text: '' );
-  String tipo = 'robo';
+  String tipos = 'robo';
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class _UpdatePageState extends State<UpdatePage> {
     //Dentro de la lista, se obtienen los datos del cliente y la fecha en las posiciones 0 y 1, respectivamente
     final clienteData = argumentsList[0];
     final fechaData = argumentsList[1];
-    tipo = argumentsList[3];
+    //tipos = argumentsList[3];
     //Se inicializan los controllers para el TextField, con los datos previos recuperados
     clientController.text = clienteData;
     fechaController.text = fechaData;
@@ -84,11 +84,11 @@ class _UpdatePageState extends State<UpdatePage> {
 
             const Text('Seleccione el tipo de incidencia'),
             DropdownButton<String>(
-              value: tipo,
+              value: tipos,
               items: const [
                 DropdownMenuItem(
-                value: 'robo',
-                child: Text('Robo'),
+                  value: 'robo',
+                  child: Text('Robo'),
                 ),
                 DropdownMenuItem(
                   value: 'accidente',
@@ -101,7 +101,7 @@ class _UpdatePageState extends State<UpdatePage> {
               ],
               onChanged: (String? newValue) {
                 setState(() {
-                  tipo = newValue!;
+                  tipos = newValue!;
                 });
               },
             ),
@@ -109,7 +109,7 @@ class _UpdatePageState extends State<UpdatePage> {
             ElevatedButton(
               onPressed: () async{
                 //Actualizar la incidencia en la base de datos
-                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text).then((value) => 
+                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text, tipos).then((value) => 
                   Navigator.pop(context)
                 );
               },

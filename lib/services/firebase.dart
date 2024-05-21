@@ -35,10 +35,11 @@ Future<void> createIncident(String cliente, String fecha, String tipo) async {
 }
 
 //CRUD UPDATE
-Future<void> updateIncident(String id ,String cliente, String fecha) async {
+Future<void> updateIncident(String id ,String cliente, String fecha, String tipo) async {
   await db.collection('incidencia').doc(id).update({
     'cliente': cliente,
     'fecha': fecha,
+    'tipo': tipo,
   });
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import '../services/firebase.dart';
 
@@ -31,14 +32,18 @@ class _CreatePageState extends State<CreatePage> {
                 labelText: 'Ingrese el nombre del cliente',
               ),
             ),
-        
+            
+            const Gap(10),
+
             TextField( 
               controller: fechaController,
               decoration: const InputDecoration(
                 labelText: 'Ingrese la fecha de la incidencia',
               ),
             ),
-
+            
+            const Gap(20),
+        
             const Text('Seleccione el tipo de incidencia'),
             DropdownButton<String>(
               value: tipo,
@@ -62,6 +67,8 @@ class _CreatePageState extends State<CreatePage> {
                 });
               },
             ),
+
+            const Gap(10),
 
             ElevatedButton(
               onPressed: () {
