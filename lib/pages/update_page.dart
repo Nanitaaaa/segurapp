@@ -13,20 +13,25 @@ class _UpdatePageState extends State<UpdatePage> {
 
   TextEditingController clientController = TextEditingController(text: '' );
   TextEditingController fechaController = TextEditingController(text: '' );
-  String tipos = 'robo';
+  TextEditingController descController = TextEditingController(text: '' );
+  String tipos = 'otro';
+  String estado = 'Abierta';
 
   @override
   Widget build(BuildContext context) {
     //Acceder a los argumentos pasados por el ModalRoute
     final arguments = ModalRoute.of(context)!.settings.arguments as Set<dynamic>;
-    final List<dynamic> argumentsList = arguments.toList();
+    List<dynamic> argumentsList = arguments.toList();
     //Dentro de la lista, se obtienen los datos del cliente y la fecha en las posiciones 0 y 1, respectivamente
     final clienteData = argumentsList[0];
     final fechaData = argumentsList[1];
-    //tipos = argumentsList[3];
+    final descData = argumentsList[3];
+    //tipos = argumentsList[4]; //Con esto consigo mostrar el tipo actual al ser mostrado pero si lo descomento genera un error que no deja modificar campos.
+    
     //Se inicializan los controllers para el TextField, con los datos previos recuperados
     clientController.text = clienteData;
     fechaController.text = fechaData;
+    descController.text = descData;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -82,21 +87,79 @@ class _UpdatePageState extends State<UpdatePage> {
               ),
             ),
 
+            TextField( 
+              controller: descController,
+              decoration: const InputDecoration(
+                labelText: 'Descripción de la incidencia',
+              ),
+            ),
+
+            DropdownButton<String>(
+              value: estado,
+              icon: const Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String ?newValue) {
+                setState(() {
+                  estado = newValue!;
+                });
+              },
+              items: <String>['Abierta', 'En atención', 'Cerrada']
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+            ),
             const Text('Seleccione el tipo de incidencia'),
             DropdownButton<String>(
               value: tipos,
               items: const [
                 DropdownMenuItem(
-                  value: 'robo',
-                  child: Text('Robo'),
+                value: 'robo',
+                child: Text('Robo / Asalto'),
+                ),
+                 DropdownMenuItem(
+                value: 'extravio',
+                child: Text('Extravío'),
+                ),
+                 DropdownMenuItem(
+                value: 'violencia',
+                child: Text('Violencia doméstica'),
                 ),
                 DropdownMenuItem(
                   value: 'accidente',
-                  child: Text('Accidente'),
+                  child: Text('Accidente de tránsito'),
+                ),
+                 DropdownMenuItem(
+                value: 'sospecha',
+                child: Text('Actividad sospechosa'),
                 ),
                 DropdownMenuItem(
                   value: 'disturbio',
-                  child: Text('Disturbio'),
+                  child: Text('Disturbios'),
+                ),
+                 DropdownMenuItem(
+                value: 'incendio',
+                child: Text('Incendio'),
+                ),
+                 DropdownMenuItem(
+                value: 'cortes',
+                child: Text('Corte de tránsito'),
+                ),
+                 DropdownMenuItem(
+                value: 'portonazo',
+                child: Text('Portonazo'),
+                ),
+                 DropdownMenuItem(
+                value: 'otro',
+                child: Text('Otro..'),
                 ),
               ],
               onChanged: (String? newValue) {
@@ -109,7 +172,7 @@ class _UpdatePageState extends State<UpdatePage> {
             ElevatedButton(
               onPressed: () async{
                 //Actualizar la incidencia en la base de datos
-                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text, tipos).then((value) => 
+                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text, descController.text, tipos, estado).then((value) => 
                   Navigator.pop(context)
                 );
               },

@@ -81,7 +81,9 @@ class _HomeState extends State<Home> {
                       snapshot.data?[index]['cliente']??'',
                       snapshot.data?[index]['fecha']??'',
                       snapshot.data?[index]['id'],
+                      snapshot.data?[index]['descripcion'],
                       snapshot.data?[index]['tipo'],
+                      snapshot.data?[index]['estado'],
                       });
                       //Actualizar la lista de incidencias
                       setState(() {});

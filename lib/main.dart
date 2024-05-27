@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //Importaciones para Firebase
 import 'package:firebase_core/firebase_core.dart';
 
+
 //Paginas de la aplicación
 import 'firebase_options.dart';
 import 'pages/create_page.dart';
