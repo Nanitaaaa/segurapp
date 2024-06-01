@@ -99,18 +99,30 @@ class _HomeState extends State<Home> {
             );
           }
         }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async{
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CreatePage(),
-              ),
-            );
-            //Actualizar la lista de incidencias
-            setState(() {});
-          },
-          child: const Icon( Icons.add),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              onPressed: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreatePage(),
+                  ),
+                );
+                // Update the list of incidents (if needed)
+                setState(() {});
+              },
+              child: const Icon(Icons.add),
+            ),
+            const SizedBox(width: 10),
+            FloatingActionButton( // New button for experimental page
+              onPressed: () {
+                Navigator.pushNamed(context, '/experimental');
+              },
+              child: const Icon(Icons.explore), // You can customize the icon
+            ),
+          ],
         ),
       );
     }

@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 //Paginas de la aplicación
 import 'firebase_options.dart';
 import 'pages/create_page.dart';
+import 'pages/experimental.dart';
 import 'pages/home_page.dart';
 import 'pages/update_page.dart';
 
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const Home(),
         '/create': (context) => const CreatePage(),
         '/update': (context) => const UpdatePage(),
+        '/experimental': (context) => const ExperimentalPage(),
       },
     );
   }
