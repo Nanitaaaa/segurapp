@@ -116,12 +116,12 @@ class _HomeState extends State<Home> {
               child: const Icon(Icons.add),
             ),
             const SizedBox(width: 10),
-            FloatingActionButton( // New button for experimental page
-              onPressed: () {
-                Navigator.pushNamed(context, '/experimental');
-              },
-              child: const Icon(Icons.explore), // You can customize the icon
-            ),
+             FloatingActionButton( // New button for experimental page
+               onPressed: () {
+                 Navigator.pushNamed(context, '/experimental');
+               },
+               child: const Icon(Icons.explore), // You can customize the icon
+             ),
           ],
         ),
       );

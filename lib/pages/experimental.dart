@@ -22,22 +22,50 @@ class _ExperimentalPageState extends State<ExperimentalPage> {
       ),
       body: Column(
         children: [
-          imagenUpload != null ? Image.file(imagenUpload!) : Container(
-            margin: const EdgeInsets.all(10),
-            height: 200,
-            width: double.infinity,
-            color: Colors.blue,
-          ),
+          imagenUpload != null 
+            ? Image.file(imagenUpload!) 
+            : Container(
+              margin: const EdgeInsets.all(10),
+              height: 200,
+              width: double.infinity,
+              color: Colors.blue,
+            ),
           ElevatedButton(
             onPressed: () async {
-              final imagen = await getImagen();
+              //Con getImagenCamara() se puede subir una foto
+              final imagen = await getImagen(); //
               setState(() {
                 imagenUpload = File(imagen!.path);
               });
             }, 
             child: 
               const Text('Seleccionar imagen')),
-          ElevatedButton(onPressed: (){}, child: const Text('Subir imagen')),
+          ElevatedButton(
+            onPressed: () async {
+              if (imagenUpload == null) {
+                return;
+              }
+              final subir = await subirImagen( imagenUpload!);
+              
+
+              //TODO: Arreglar el warning de no usar el context en el ScaffoldMessenger
+              if (subir) {
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Imagen subida correctamente'),
+                  ),
+                );
+              } else {
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Error al subir la imagen'),
+                  ),
+                );
+              }
+            }, 
+            child: const Text('Subir imagen')),
         ],
       ),
     );
