@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 import '../services/firebase.dart';
+import '../services/imagen_up.dart';
 
 
 class CreatePage extends StatefulWidget {
@@ -18,6 +21,8 @@ class _CreatePageState extends State<CreatePage> {
   TextEditingController fechaController = TextEditingController(text: '' );
   TextEditingController descController = TextEditingController(text: '' );
   String tipo = 'robo';
+  File? imagenUpload;
+  String linkImagen = '';
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +56,40 @@ class _CreatePageState extends State<CreatePage> {
                 labelText: 'Ingrese la fecha de la incidencia',
               ),
             ),*/
+
+            const Gap(15),
+
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imagenUpload != null
+                  ? Image.file(imagenUpload!) // Mostrar imagen si está seleccionada
+                  : const Center(
+                      child: Text(// Mostrar texto si no hay imagen
+                        "Imagen no seleccionada",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ), 
+            ),
+
+            ElevatedButton(
+            onPressed: () async {
+              //Con getImagenCamara() se puede subir una foto
+              final imagen = await getImagen(); //
+              setState(() {
+                imagenUpload = File(imagen!.path);
+              });
+            }, 
+            child: 
+              const Text('Seleccionar imagen')),
             
             const Gap(20),
         
@@ -109,16 +148,21 @@ class _CreatePageState extends State<CreatePage> {
             const Gap(10),
 
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
                 DateTime ahora = DateTime.now();
                 String horaFormateada = DateFormat('dd/MM/yyyy kk:mm:ss').format(ahora);
                 fechaController.text = horaFormateada;
-                createIncident(clientController.text, fechaController.text, descController.text, tipo, 'Abierta').then((_) => {
+                if (imagenUpload != null) {
+                  linkImagen = await subirImagen( imagenUpload!);
+                }
+                print (linkImagen);
+                createIncident(clientController.text, fechaController.text, descController.text, tipo, 'Abierta', linkImagen).then((_) => {
                   Navigator.pop(context),
                 });
               },
               child: const Text('Crear'),
             ),
+            
           ],
         ),
       ),

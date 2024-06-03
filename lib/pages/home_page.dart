@@ -84,6 +84,7 @@ class _HomeState extends State<Home> {
                       snapshot.data?[index]['descripcion'],
                       snapshot.data?[index]['tipo'],
                       snapshot.data?[index]['estado'],
+                      snapshot.data?[index]['imagen']??''
                       });
                       //Actualizar la lista de incidencias
                       setState(() {});
@@ -115,13 +116,13 @@ class _HomeState extends State<Home> {
               },
               child: const Icon(Icons.add),
             ),
-            const SizedBox(width: 10),
-             FloatingActionButton( // New button for experimental page
-               onPressed: () {
-                 Navigator.pushNamed(context, '/experimental');
-               },
-               child: const Icon(Icons.explore), // You can customize the icon
-             ),
+            // const SizedBox(width: 10),
+            //  FloatingActionButton( // New button for experimental page
+            //    onPressed: () {
+            //      Navigator.pushNamed(context, '/experimental');
+            //    },
+            //    child: const Icon(Icons.explore), // You can customize the icon
+            //  ),
           ],
         ),
       );

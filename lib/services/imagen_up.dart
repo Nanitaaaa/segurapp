@@ -22,24 +22,17 @@ Future<XFile?> getImagenCamara() async {
 }
 
 //Metodo para subir una imagen a la base de datos
-Future<bool> subirImagen(File imagen) async {
-  print (imagen.path);
-
+Future<String> subirImagen(File imagen) async {
 
   final String nameFile = imagen.path.split('/').last;
   final Reference upload = storage.ref().child("imagenes").child(nameFile);
   final UploadTask uploadTask = upload.putFile(imagen);
-  print(UploadTask);
-
   final TaskSnapshot snapshot = await uploadTask.whenComplete(() => true);
-
   final String downloadUrl = await snapshot.ref.getDownloadURL();
 
-  print(downloadUrl);
-
   if (snapshot.state == TaskState.success) {
-    return true;
+    return downloadUrl;
   } else {
-    return false;
+    return '';
   }
 }

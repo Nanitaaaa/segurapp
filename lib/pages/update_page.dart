@@ -29,6 +29,7 @@ class _UpdatePageState extends State<UpdatePage> {
     //TODO: Arreglar la logica de mostrar el tipo y estado actual de la incidencia
     //tipos = argumentsList[4]; //Con esto consigo mostrar el tipo actual al ser mostrado pero si lo descomento genera un error que no deja modificar campos.
     //estado = argumentsList[5]; //lo mismo con esto
+    final imagen = argumentsList[6];
 
     //Se inicializan los controllers para el TextField, con los datos previos recuperados
     clientController.text = clienteData;
@@ -145,25 +146,28 @@ class _UpdatePageState extends State<UpdatePage> {
                 });
               },
             ),
-            Row( // New row for button and text
-              mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
-              children: <Widget>[
-                FloatingActionButton( // New button for experimental page
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/experimental');
-                  },
-                  child: const Icon(Icons.arrow_upward), // You can customize the icon
-                ),
-                const SizedBox(width: 2), // Add some spacing between the button and the text
-                Container( // Container en caso de querer agregar fondo a la frase de subir imagen
-                  padding: const EdgeInsets.all(8.0), // Add some padding around the text
-                  decoration: BoxDecoration( // New decoration for the container
-                    borderRadius: BorderRadius.circular(25), // Make it oval
-                  ),
-                  child: const Text("Pulsa para subir imagen", style: TextStyle(color: Color.fromARGB(255, 88, 79, 79))), // New text widget
-                ),
-              ],
+            
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: imagen != ''
+                  ? Image.network(imagen!) // Mostrar imagen si está existe
+                  : const Center(
+                      child: Text(// Mostrar texto si no hay imagen
+                        "Imagen no seleccionada",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ), 
             ),
+
             DropdownButton<String>(
               value: estado,
               icon: const Icon(Icons.arrow_downward),
