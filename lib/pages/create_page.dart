@@ -32,7 +32,7 @@ class _CreatePageState extends State<CreatePage> {
             TextField( 
               controller: clientController,
               decoration: const InputDecoration(
-                labelText: 'Ingrese el nombre del cliente',
+                labelText: 'Ingrese nombre del usuario',
               ),
             ),
              

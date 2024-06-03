@@ -26,13 +26,14 @@ class _UpdatePageState extends State<UpdatePage> {
     final clienteData = argumentsList[0];
     final fechaData = argumentsList[1];
     final descData = argumentsList[3];
+    //TODO: Arreglar la logica de mostrar el tipo y estado actual de la incidencia
     //tipos = argumentsList[4]; //Con esto consigo mostrar el tipo actual al ser mostrado pero si lo descomento genera un error que no deja modificar campos.
-    
+    //estado = argumentsList[5]; //lo mismo con esto
+
     //Se inicializan los controllers para el TextField, con los datos previos recuperados
     clientController.text = clienteData;
     fechaController.text = fechaData;
     descController.text = descData;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.redAccent,
@@ -76,7 +77,7 @@ class _UpdatePageState extends State<UpdatePage> {
             TextField( 
               controller: clientController,
               decoration: const InputDecoration(
-                labelText: 'Ingrese el nombre del cliente',
+                labelText: 'Ingrese nombre del usuario',
               ),
             ),
         
@@ -92,30 +93,6 @@ class _UpdatePageState extends State<UpdatePage> {
               decoration: const InputDecoration(
                 labelText: 'Descripción de la incidencia',
               ),
-            ),
-
-            DropdownButton<String>(
-              value: estado,
-              icon: const Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String ?newValue) {
-                setState(() {
-                  estado = newValue!;
-                });
-              },
-              items: <String>['Abierta', 'En atención', 'Cerrada']
-                .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
             ),
             const Text('Seleccione el tipo de incidencia'),
             DropdownButton<String>(
@@ -168,7 +145,49 @@ class _UpdatePageState extends State<UpdatePage> {
                 });
               },
             ),
-        
+            Row( // New row for button and text
+              mainAxisAlignment: MainAxisAlignment.center, // Center the children horizontally
+              children: <Widget>[
+                FloatingActionButton( // New button for experimental page
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/experimental');
+                  },
+                  child: const Icon(Icons.arrow_upward), // You can customize the icon
+                ),
+                const SizedBox(width: 2), // Add some spacing between the button and the text
+                Container( // Container en caso de querer agregar fondo a la frase de subir imagen
+                  padding: const EdgeInsets.all(8.0), // Add some padding around the text
+                  decoration: BoxDecoration( // New decoration for the container
+                    borderRadius: BorderRadius.circular(25), // Make it oval
+                  ),
+                  child: const Text("Pulsa para subir imagen", style: TextStyle(color: Color.fromARGB(255, 88, 79, 79))), // New text widget
+                ),
+              ],
+            ),
+            DropdownButton<String>(
+              value: estado,
+              icon: const Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String ?newValue) {
+                setState(() {
+                  estado = newValue!;
+                });
+              },
+              items: <String>['Abierta', 'En atención', 'Cerrada']
+                .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+            ),
+            
             ElevatedButton(
               onPressed: () async{
                 //Actualizar la incidencia en la base de datos
