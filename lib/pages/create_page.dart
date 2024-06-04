@@ -155,6 +155,7 @@ class _CreatePageState extends State<CreatePage> {
                 if (imagenUpload != null) {
                   linkImagen = await subirImagen( imagenUpload!);
                 }
+                // ignore: avoid_print
                 print (linkImagen);
                 createIncident(clientController.text, fechaController.text, descController.text, tipo, 'Abierta', linkImagen).then((_) => {
                   Navigator.pop(context),
