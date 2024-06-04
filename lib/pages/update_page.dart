@@ -86,7 +86,6 @@ class _UpdatePageState extends State<UpdatePage> {
                 labelText: 'Ingrese nombre del usuario',
               ),
             ),
-        
             TextField( 
               controller: fechaController,
               decoration: const InputDecoration(
