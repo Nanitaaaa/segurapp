@@ -71,16 +71,17 @@ class _UpdatePageState extends State<UpdatePage> {
       appBar: AppBar(
         title: const Text('Modificar Incidencia'),
       ),
-      body: Padding(
+          body: Padding(
         padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Column(
-          children: [
-            TextField( 
-              controller: clientController,
-              decoration: const InputDecoration(
-                labelText: 'Ingrese nombre del usuario',
+        child: SingleChildScrollView( // Agregado SingleChildScrollView
+          child: Column(
+            children: [
+              TextField( 
+                controller: clientController,
+                decoration: const InputDecoration(
+                  labelText: 'Ingrese nombre del usuario',
+                ),
               ),
-            ),
         
             TextField( 
               controller: fechaController,
@@ -204,6 +205,7 @@ class _UpdatePageState extends State<UpdatePage> {
           ],
         ),
       ),
+    ),
     );
   }
 }
