@@ -14,8 +14,8 @@ class _UpdatePageState extends State<UpdatePage> {
   TextEditingController clientController = TextEditingController(text: '' );
   TextEditingController fechaController = TextEditingController(text: '' );
   TextEditingController descController = TextEditingController(text: '' );
-  String tipos = 'otro';
-  String estado = 'Abierta';
+  TextEditingController tipoController = TextEditingController(text: '');
+  TextEditingController estadoController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +26,19 @@ class _UpdatePageState extends State<UpdatePage> {
     final clienteData = argumentsList[0];
     final fechaData = argumentsList[1];
     final descData = argumentsList[3];
-    //TODO: Arreglar la logica de mostrar el tipo y estado actual de la incidencia
     //tipos = argumentsList[4]; //Con esto consigo mostrar el tipo actual al ser mostrado pero si lo descomento genera un error que no deja modificar campos.
-    //estado = argumentsList[5]; //lo mismo con esto
+    //estado = argumentsList[5]; //lo mismo con esto, para solucionarlo usaré TextEditingController para trabajar estas partes
+    final tipoData = argumentsList[4];
+    final estadoData = argumentsList[5];
     final imagen = argumentsList[6];
 
     //Se inicializan los controllers para el TextField, con los datos previos recuperados
     clientController.text = clienteData;
     fechaController.text = fechaData;
     descController.text = descData;
+    tipoController.text = tipoData;
+    estadoController.text = estadoData;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.redAccent,
@@ -72,7 +76,8 @@ class _UpdatePageState extends State<UpdatePage> {
         title: const Text('Modificar Incidencia'),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: SingleChildScrollView( // Agregado SingleChildScrollView
         child: Column(
           children: [
             TextField( 
@@ -95,56 +100,12 @@ class _UpdatePageState extends State<UpdatePage> {
                 labelText: 'Descripción de la incidencia',
               ),
             ),
-            const Text('Seleccione el tipo de incidencia'),
-            DropdownButton<String>(
-              value: tipos,
-              items: const [
-                DropdownMenuItem(
-                value: 'robo',
-                child: Text('Robo / Asalto'),
-                ),
-                 DropdownMenuItem(
-                value: 'extravio',
-                child: Text('Extravío'),
-                ),
-                 DropdownMenuItem(
-                value: 'violencia',
-                child: Text('Violencia doméstica'),
-                ),
-                DropdownMenuItem(
-                  value: 'accidente',
-                  child: Text('Accidente de tránsito'),
-                ),
-                 DropdownMenuItem(
-                value: 'sospecha',
-                child: Text('Actividad sospechosa'),
-                ),
-                DropdownMenuItem(
-                  value: 'disturbio',
-                  child: Text('Disturbios'),
-                ),
-                 DropdownMenuItem(
-                value: 'incendio',
-                child: Text('Incendio'),
-                ),
-                 DropdownMenuItem(
-                value: 'cortes',
-                child: Text('Corte de tránsito'),
-                ),
-                 DropdownMenuItem(
-                value: 'portonazo',
-                child: Text('Portonazo'),
-                ),
-                 DropdownMenuItem(
-                value: 'otro',
-                child: Text('Otro..'),
-                ),
-              ],
-              onChanged: (String? newValue) {
-                setState(() {
-                  tipos = newValue!;
-                });
-              },
+
+            TextField( 
+              controller: tipoController,
+              decoration: const InputDecoration(
+                labelText: 'Tipo de incidencia',
+              ),
             ),
             
             Container(
@@ -167,35 +128,23 @@ class _UpdatePageState extends State<UpdatePage> {
                       ),
                     ), 
             ),
-
-            DropdownButton<String>(
-              value: estado,
-              icon: const Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String ?newValue) {
-                setState(() {
-                  estado = newValue!;
-                });
+             ElevatedButton(
+              onPressed: () {
+                if (estadoController.text == 'Abierta') {
+                  estadoController.text = 'Cerrada';
+                } else {
+                  estadoController.text = 'Abierta';
+                }
+                updateState(argumentsList[2], estadoController.text);
+                Navigator.pop(context, true); //Retorna a 'true' para indicar un cambio de estado
               },
-              items: <String>['Abierta', 'En atención', 'Cerrada']
-                .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
+              child: Text(estadoController.text == 'Abierta' ? 'Cerrar Incidencia' : 'Reabrir Incidencia'),
             ),
             
             ElevatedButton(
               onPressed: () async{
                 //Actualizar la incidencia en la base de datos
-                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text, descController.text, tipos, estado).then((value) => 
+                await updateIncident(argumentsList[2] ,clientController.text, fechaController.text, descController.text, tipoController.text, estadoController.text).then((value) => 
                   Navigator.pop(context)
                 );
               },
@@ -204,6 +153,6 @@ class _UpdatePageState extends State<UpdatePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

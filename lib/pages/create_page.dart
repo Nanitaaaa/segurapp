@@ -46,7 +46,7 @@ class _CreatePageState extends State<CreatePage> {
             TextField( 
               controller: descController,
               decoration: const InputDecoration(
-                labelText: 'Describa la situación (opcional)',
+                labelText: 'Describa la situación',
               ),
             ),
 

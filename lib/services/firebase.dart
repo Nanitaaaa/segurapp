@@ -55,3 +55,10 @@ Future<void> updateIncident(String id ,String cliente, String fecha, String desc
 Future<void> deleteIncident(String id) async {
   await db.collection('incidencia').doc(id).delete();
 }
+
+//Actualizacion Estado
+Future<void> updateState(String id, String estado) async {
+  await db.collection('incidencia').doc(id).update({
+    'estado': estado,
+  });
+}
